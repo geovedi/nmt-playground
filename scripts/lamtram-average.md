@@ -1,11 +1,9 @@
 
 # Lamtram Averaged Models
 
-Models ensemble generally improves the translation quality but reduces the speed and requires bigger memory. Here, we can use the alternative method by weight averaging, where the produced single model is element-wise parameters average of the several identic models.
+Models ensemble generally improves the translation quality but reduces the speed and requires bigger memory. Here, we can use the alternative method by weight averaging, where the produced single model is element-wise average of the several identic models' parameters.
 
-The original models used in this experiment is trained with Adam optimizer with learning rate `0.001` after 1 epoch and continued with SGD with learning rate `0.05'.
-
-
+The original models used in this experiment is trained with Adam optimizer with learning rate `0.001` after 1 epoch and continued with SGD with learning rate `0.05`.
 
 ## Test Result (10,000 sentences)
 

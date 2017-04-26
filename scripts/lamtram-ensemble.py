@@ -9,7 +9,7 @@ import numpy as np
 
 def num2str(num, dtype):
     if dtype == np.float64:
-        return '{0:.8f}'.format(num)
+        return '{0:.4f}'.format(num)
     elif dtype == np.int64:
         return '{0:n}'.format(num)
     return num

@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import io
 import regex as re
 import subprocess
-import plac
+import fire
 
 
 class Segmenter(object):
@@ -215,4 +215,4 @@ def main(model,
 
 
 if __name__ == '__main__':
-    plac.call(main)
+    fire.Fire(main)

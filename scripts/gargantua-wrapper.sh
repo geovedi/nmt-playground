@@ -13,7 +13,7 @@ cat ${FILELIST} | while read fname; do
     echo ${fname};
     cat ${SOURCE_DIR}/${fname} | ${SENT_TOKENIZER} | grep -v "^$" \
         > ${BASEDIR}/corpus_to_align/source_language_corpus_untokenized/${fname};
-    cat ${SOURCE_DIR}/${fname} | ${SENT_TOKENIZER} | grep -v "^$" \
+    cat ${TARGET_DIR}/${fname} | ${SENT_TOKENIZER} | grep -v "^$" \
         > ${BASEDIR}/corpus_to_align/target_language_corpus_untokenized/${fname};
     cat ${BASEDIR}/corpus_to_align/source_language_corpus_untokenized/${fname} | \
         ${WORD_TOKENIZER} | perl -CSA -ne 'print lc' \

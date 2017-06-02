@@ -19,6 +19,8 @@ def main(source_file, target_file, s2t_file, t2s_file, out_file, min_score=0.5):
             (src, tgt, s2t_score, t2s_score) = pair
 
             if min([float(s2t_score), float(t2s_score)]) > min_score:
+                src = src.strip()
+                tgt = tgt.strip()
                 out.write('{src} ||| {tgt}\n'.format(src=src, tgt=tgt))
 
             if i % 1000 == 0:

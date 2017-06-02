@@ -15,7 +15,7 @@ def main(source_file, target_file, s2t_file, t2s_file, output_file, min_score=0.
     source = io.open(source_file, 'r', encoding='utf-8').read().strip().split('\n')
     target = io.open(target_file, 'r', encoding='utf-8').read().strip().split('\n')
 
-    assert len(source) == len(target) == s2t.shape[0] == t2s.shape[0], 'mismatch sentences length'
+    assert len(source) == len(target) == s2t.shape[0] == t2s.shape[0], 'length mismatch'
 
     with io.open(output_file, 'w', encoding='utf-8') as out:
         for i, (src, tgt) in enumerate(zip(source, target)):

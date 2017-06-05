@@ -42,11 +42,11 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
                     trans = ''
                 out.write('{0}\n'.format(trans))
 
-        with io.open(valid_tgt, 'r', encoding='utf-8') as infile:
-            cmd = ['run-scorer', 'BLEU', 'case:1', valid_src]
+        with io.open(exp_out, 'r', encoding='utf-8') as infile:
+            cmd = ['run-scorer', 'BLEU', 'case:1', valid_tgt]
             proc = subprocess.Popen(cmd, stdin=infile, stdout=subprocess.PIPE)
         proc_out, proc_err = proc.communicate()
-        score = float(proc_out)
+        score = 1.0 - float(proc_out)
 
         logging.info('End experiment: id: {0}, score: {1}'
                      .format(exp_id, score))

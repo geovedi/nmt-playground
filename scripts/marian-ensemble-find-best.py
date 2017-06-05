@@ -4,7 +4,6 @@ import io
 import uuid
 import subprocess
 import fire
-import libamunmt as nmt
 from pyaml import yaml
 from hyperopt import fmin, tpe, hp
 
@@ -31,6 +30,7 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
         with io.open(exp_config, 'w', encoding='utf-8') as out:
             out.write(yaml.dump(config))
 
+        import libamunmt as nmt
         nmt.init('-c {0}'.format(exp_config))
         exp_out = '{0}/{1}.out'.format(workdir, exp_id)
         with io.open(exp_out, 'w', encoding='utf-8') as out:

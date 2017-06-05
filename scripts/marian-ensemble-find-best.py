@@ -39,7 +39,8 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
 
         with io.open(exp_out, 'r', encoding='utf-8') as infile:
             cmd = ['run-scorer', 'BLEU', 'case:1', valid_tgt]
-            proc = subprocess.Popen(cmd, stdin=infile, stdout=subprocess.PIPE)
+            proc = subprocess.Popen(cmd, stdin=infile, stdout=subprocess.PIPE,
+                                    stderr=subprocess.DEVNULL)
         proc_out, proc_err = proc.communicate()
         score = float(proc_out)
 

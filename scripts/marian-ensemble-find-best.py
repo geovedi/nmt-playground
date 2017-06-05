@@ -21,12 +21,9 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
 
         exp_config = '{0}/{1}.yml'.format(workdir, exp_id)
         config['weights'] = weights
-        # hack to avoid runtime error
-        if config.get('log-info'):
-            del config['log-info']
         with io.open(exp_config, 'w', encoding='utf-8') as out:
             out.write(yaml.dump(config))
-        nmt.init('-c {0}'.format(exp_config))
+        nmt.init('-c {0} --log-progress=0 --log-info=0'.format(exp_config))
 
         exp_out = '{0}/{1}.out'.format(workdir, exp_id)
         with io.open(exp_out, 'w', encoding='utf-8') as out:

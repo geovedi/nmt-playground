@@ -41,7 +41,6 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
                 else:
                     trans = ''
                 out.write('{0}\n'.format(trans))
-        nmt.shutdown()
 
         with io.open(valid_tgt, 'r', encoding='utf-8') as infile:
             cmd = ['run-scorer', 'BLEU', 'case:1', valid_src]

@@ -5,7 +5,7 @@ import uuid
 import subprocess
 import fire
 from pyaml import yaml
-from hyperopt import fmin, tpe, hp
+from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
 
 import logging
 logging.basicConfig(
@@ -46,11 +46,12 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
             cmd = ['run-scorer', 'BLEU', 'case:1', valid_tgt]
             proc = subprocess.Popen(cmd, stdin=infile, stdout=subprocess.PIPE)
         proc_out, proc_err = proc.communicate()
-        score = 1.0 - float(proc_out)
+        score = float(proc_out)
 
         logging.info('End experiment: id: {0}, score: {1}'
                      .format(exp_id, score))
-        return score
+        loss = 1.0 - score
+        return {'loss': loss, 'status': STATUS_OK}
 
     def create_space(weights):
         space = {}
@@ -58,11 +59,13 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
             space[key] = hp.uniform(key, -1, 1)
         return space
 
+    trials = Trials()
     best = fmin(
         translator,
         space=create_space(config['weights']),
         algo=tpe.suggest,
-        max_evals=max_evals)
+        max_evals=max_evals,
+        trials=trials)
 
     logging.info('Best: {0}'.format(best))
 

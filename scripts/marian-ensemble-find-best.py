@@ -56,7 +56,7 @@ def main(workdir, base_config, valid_src, valid_tgt, max_evals=100):
     def create_space(weights):
         space = {}
         for key in weights.keys():
-            space[key] = hp.uniform(key, -1, 1)
+            space[key] = hp.uniform(key, 0, 1)
         return space
 
     trials = Trials()

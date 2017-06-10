@@ -1,0 +1,31 @@
+allow-unk: false
+beam-size: 1
+devices:
+  - 0
+dim-emb: 128
+dim-pos: 0
+dim-rnn: 256
+dim-vocabs:
+  - 10000
+  - 10
+input:
+  - stdin
+layer-normalization: false
+layers-dec: 1
+layers-enc: 1
+max-length: 1000
+maxi-batch: 1
+mini-batch: 1
+models:
+  - clf.s2s.npz
+n-best: false
+normalize: true
+relative-paths: true
+seed: 1337
+skip: true
+tied-embeddings: true
+type: s2s
+vocabs:
+  - vocab.en.yml
+  - vocab.labels.yml
+workspace: 512

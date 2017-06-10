@@ -1,0 +1,13 @@
+source-vocab: vocab.en.yml
+target-vocab: vocab.labels.yml
+devices:
+  - 0
+normalize: true
+beam-size: 1
+relative-paths: false
+scorers:
+  F0:
+    path: clf.amun.npz
+    type: Nematus
+weights:
+  F0: 1

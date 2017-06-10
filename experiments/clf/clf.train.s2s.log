@@ -1,0 +1,112 @@
+[2017-06-11 05:50:05] [config] after-batches: 1000
+[2017-06-11 05:50:05] [config] after-epochs: 0
+[2017-06-11 05:50:05] [config] clip-norm: 0.5
+[2017-06-11 05:50:05] [config] devices:
+[2017-06-11 05:50:05] [config]   - 0
+[2017-06-11 05:50:05] [config] dim-emb: 128
+[2017-06-11 05:50:05] [config] dim-pos: 0
+[2017-06-11 05:50:05] [config] dim-rnn: 256
+[2017-06-11 05:50:05] [config] dim-vocabs:
+[2017-06-11 05:50:05] [config]   - 10000
+[2017-06-11 05:50:05] [config]   - 10
+[2017-06-11 05:50:05] [config] disp-freq: 1000
+[2017-06-11 05:50:05] [config] drop-rate: 0
+[2017-06-11 05:50:05] [config] dropout-rnn: 0.3
+[2017-06-11 05:50:05] [config] dropout-src: 0.3
+[2017-06-11 05:50:05] [config] dropout-trg: 0.3
+[2017-06-11 05:50:05] [config] dynamic-batching: true
+[2017-06-11 05:50:05] [config] early-stopping: 2
+[2017-06-11 05:50:05] [config] guided-alignment-cost: ce
+[2017-06-11 05:50:05] [config] guided-alignment-weight: 1
+[2017-06-11 05:50:05] [config] keep-best: false
+[2017-06-11 05:50:05] [config] layer-normalization: true
+[2017-06-11 05:50:05] [config] layers-dec: 1
+[2017-06-11 05:50:05] [config] layers-enc: 1
+[2017-06-11 05:50:05] [config] learn-rate: 0.001
+[2017-06-11 05:50:05] [config] log: clf.train.s2s.log
+[2017-06-11 05:50:05] [config] max-length: 50
+[2017-06-11 05:50:05] [config] maxi-batch: 1000
+[2017-06-11 05:50:05] [config] mini-batch: 100
+[2017-06-11 05:50:05] [config] mini-batch-words: 0
+[2017-06-11 05:50:05] [config] model: clf.s2s.npz
+[2017-06-11 05:50:05] [config] moving-average: false
+[2017-06-11 05:50:05] [config] moving-decay: 0.999
+[2017-06-11 05:50:05] [config] no-reload: false
+[2017-06-11 05:50:05] [config] no-shuffle: false
+[2017-06-11 05:50:05] [config] optimizer: adam
+[2017-06-11 05:50:05] [config] overwrite: false
+[2017-06-11 05:50:05] [config] relative-paths: false
+[2017-06-11 05:50:05] [config] save-freq: 10000
+[2017-06-11 05:50:05] [config] seed: 1337
+[2017-06-11 05:50:05] [config] skip: true
+[2017-06-11 05:50:05] [config] tempdir: /tmp
+[2017-06-11 05:50:05] [config] tied-embeddings: true
+[2017-06-11 05:50:05] [config] train-sets:
+[2017-06-11 05:50:05] [config]   - data/train.en
+[2017-06-11 05:50:05] [config]   - data/train.labels
+[2017-06-11 05:50:05] [config] type: s2s
+[2017-06-11 05:50:05] [config] valid-freq: 1000
+[2017-06-11 05:50:05] [config] valid-log: clf.valid.s2s.log
+[2017-06-11 05:50:05] [config] valid-metrics:
+[2017-06-11 05:50:05] [config]   - cross-entropy
+[2017-06-11 05:50:05] [config] valid-sets:
+[2017-06-11 05:50:05] [config]   - data/valid.en
+[2017-06-11 05:50:05] [config]   - data/valid.labels
+[2017-06-11 05:50:05] [config] vocabs:
+[2017-06-11 05:50:05] [config]   - vocab.en.yml
+[2017-06-11 05:50:05] [config]   - vocab.labels.yml
+[2017-06-11 05:50:05] [config] workspace: 4096
+[2017-06-11 05:50:05] [data] Loading vocabulary from vocab.en.yml (max: 10000)
+[2017-06-11 05:50:05] [data] Loading vocabulary from vocab.labels.yml (max: 10)
+[2017-06-11 05:50:05] [batching] Collecting statistics for dynamic batching
+[2017-06-11 05:50:06] [memory] Extending reserved space to 4096 MB (device 0)
+[2017-06-11 05:50:06] [memory] Reserving space for 3407370 floats (12 MB, device 0)
+[2017-06-11 05:50:06] [memory] Reserving space for 3407370 floats (12 MB, device 0)
+[2017-06-11 05:57:03] [batching] Done
+[2017-06-11 05:57:03] [memory] Extending reserved space to 4096 MB (device 0)
+[2017-06-11 05:57:03] [data] Shuffling files
+[2017-06-11 05:57:04] [data] Done
+[2017-06-11 05:57:05] [memory] Reserving space for 3407370 floats (12 MB, device 0)
+[2017-06-11 05:57:05] [memory] Reserving space for 3407370 floats (12 MB, device 0)
+[2017-06-11 05:57:06] [memory] Reserving space for 3407370 floats (12 MB, device 0)
+[2017-06-11 05:57:06] [memory] Reserving space for 3407370 floats (12 MB, device 0)
+[2017-06-11 05:57:28] Seen 132552 samples
+[2017-06-11 05:57:28] Starting epoch 2
+[2017-06-11 05:57:28] [data] Shuffling files
+[2017-06-11 05:57:28] [data] Done
+[2017-06-11 05:57:53] Seen 132552 samples
+[2017-06-11 05:57:53] Starting epoch 3
+[2017-06-11 05:57:53] [data] Shuffling files
+[2017-06-11 05:57:53] [data] Done
+[2017-06-11 05:58:17] Seen 132552 samples
+[2017-06-11 05:58:17] Starting epoch 4
+[2017-06-11 05:58:17] [data] Shuffling files
+[2017-06-11 05:58:18] [data] Done
+[2017-06-11 05:58:42] Seen 132552 samples
+[2017-06-11 05:58:42] Starting epoch 5
+[2017-06-11 05:58:42] [data] Shuffling files
+[2017-06-11 05:58:43] [data] Done
+[2017-06-11 05:59:07] Seen 132552 samples
+[2017-06-11 05:59:07] Starting epoch 6
+[2017-06-11 05:59:07] [data] Shuffling files
+[2017-06-11 05:59:07] [data] Done
+[2017-06-11 05:59:32] Seen 132552 samples
+[2017-06-11 05:59:32] Starting epoch 7
+[2017-06-11 05:59:32] [data] Shuffling files
+[2017-06-11 05:59:32] [data] Done
+[2017-06-11 05:59:56] Seen 132552 samples
+[2017-06-11 05:59:56] Starting epoch 8
+[2017-06-11 05:59:56] [data] Shuffling files
+[2017-06-11 05:59:57] [data] Done
+[2017-06-11 06:00:21] Seen 132552 samples
+[2017-06-11 06:00:21] Starting epoch 9
+[2017-06-11 06:00:21] [data] Shuffling files
+[2017-06-11 06:00:21] [data] Done
+[2017-06-11 06:00:46] Seen 132552 samples
+[2017-06-11 06:00:46] Starting epoch 10
+[2017-06-11 06:00:46] [data] Shuffling files
+[2017-06-11 06:00:46] [data] Done
+[2017-06-11 06:01:03] Ep. 10 : Up. 1000 : Sen. 94470 : Cost 1.59 : Time 239.96s : 152138.28 words/s
+[2017-06-11 06:01:04] [valid] 1000 : cross-entropy : 1.61601 : new best
+[2017-06-11 06:01:04] Training finshed
+[2017-06-11 06:01:04] Saving model to clf.s2s.npz

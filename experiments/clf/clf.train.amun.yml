@@ -1,0 +1,58 @@
+after-batches: 1000
+after-epochs: 0
+clip-norm: 0.5
+devices:
+  - 0
+dim-emb: 128
+dim-pos: 0
+dim-rnn: 256
+dim-vocabs:
+  - 10000
+  - 10
+disp-freq: 1000
+drop-rate: 0
+dropout-rnn: 0.3
+dropout-src: 0.3
+dropout-trg: 0.3
+dynamic-batching: true
+early-stopping: 2
+guided-alignment-cost: ce
+guided-alignment-weight: 1
+keep-best: false
+layer-normalization: true
+layers-dec: 1
+layers-enc: 1
+learn-rate: 0.001
+log: clf.train.amun.log
+max-length: 50
+maxi-batch: 1000
+mini-batch: 100
+mini-batch-words: 0
+model: clf.amun.npz
+moving-average: false
+moving-decay: 0.999
+no-reload: false
+no-shuffle: false
+optimizer: adam
+overwrite: false
+relative-paths: false
+save-freq: 10000
+seed: 1337
+skip: false
+tempdir: /tmp
+tied-embeddings: false
+train-sets:
+  - data/train.en
+  - data/train.labels
+type: amun
+valid-freq: 1000
+valid-log: clf.valid.amun.log
+valid-metrics:
+  - cross-entropy
+valid-sets:
+  - data/valid.en
+  - data/valid.labels
+vocabs:
+  - vocab.en.yml
+  - vocab.labels.yml
+workspace: 4096

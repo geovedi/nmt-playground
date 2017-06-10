@@ -12,6 +12,12 @@ from collections import defaultdict
 from pyaml import yaml
 from nltk.translate.bleu_score import SmoothingFunction, sentence_bleu
 
+import logging
+logging.basicConfig(
+    format='%(asctime)s [%(process)d] [%(levelname)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    level=logging.INFO)
+
 
 def extract_ngrams(sent, max_len):
     res = defaultdict(lambda: defaultdict(int))
@@ -119,9 +125,11 @@ def main(config, source, target, output, sctype='BLEU'):
 
     with io.open(output, 'w', buffering=1) as out:
         scores = compute_scores(translators, source, target, sctype=sctype)
-        for sent_scores in scores:
+        for sent_no, sent_scores in enumerate(scores):
             score_text = ' '.join('{0:0.8f}'.format(s) for s in sent_scores)
             out.write('{0}\n'.format(score_text))
+            if sent_no % 1000 == 0:
+                logging.info('Processed {0} sentences.'.format(sent_no))
 
 
 if __name__ == '__main__':

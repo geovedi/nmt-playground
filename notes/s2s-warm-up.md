@@ -3,7 +3,7 @@ s2s need some to warm up?
 
 first run after training finished. see the `<unk>` sequence in the first sentence.
 
-```bash
+```
 $ head ../data/valid.bpe.id | s2s-4574e3b -m model.id2en.npz -v vocab.id.yml vocab.en.yml 2>/dev/null
 <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
 to help trac￭ t the early evol￭ ution of bre￭ w￭ ok and voice ￭, we test whether those features are considered interesting ￭, domin￭ ant or both ￭.
@@ -19,7 +19,7 @@ he finally proved inno￭ cent ￭, at the age of 78 ￭, through DNA evidence a
 
 tried to run again afterwards.. got normal, expected behaviour.
 
-```bash
+```
 $ head ../data/valid.bpe.id | s2s-4574e3b -m model.id2en.npz -v vocab.id.yml vocab.en.yml 2>/dev/null
 the players are not the same ￭, the fans are not the same ￭.
 to help trac￭ t the early evol￭ ution of bre￭ w￭ ok and voice ￭, we test whether those features are considered interesting ￭, domin￭ ant or both ￭.

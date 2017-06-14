@@ -69,8 +69,13 @@ def main(config,
          io.open(tgt_L1_fname, 'w', buffering=1, encoding='utf-8') as tgt_L1, \
          io.open(tgt_L2_fname, 'w', buffering=1, encoding='utf-8') as tgt_L2:
 
-        sent_no = 0
-        for s, t in zip(src_L1, src_L2):
+        pair_no = 0
+        for sent_no, (s, t) in enumerate(zip(src_L1, src_L2)):
+            if sent_no % 10000 == 0:
+                logging.info(
+                    'Collected {0} from {1} sentences.'
+                    .format(pair_no, sent_no))
+
             if random.random() > corpus_ratio:
                 continue
 
@@ -84,14 +89,11 @@ def main(config,
                 if min_score <= score <= max_score and random.random():
                     tgt_L1.write(s)
                     tgt_L2.write(t)
-                    sent_no += 1
-
-                    if sent_no % 1000 == 0:
-                        logging.info(
-                            'Collected {0} sentences.'.format(sent_no))
+                    pair_no += 1
 
             except Exception as e:
                 logging.error('[sent_{0}]: {e}.'.format(sent_no, e))
+
 
 
 if __name__ == '__main__':

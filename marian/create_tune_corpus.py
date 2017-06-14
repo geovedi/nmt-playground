@@ -3,6 +3,7 @@
 
 import os
 import io
+import random
 import threading
 import fire
 from subprocess import Popen, PIPE, DEVNULL, TimeoutExpired
@@ -47,7 +48,14 @@ class MarianMT(object):
         return result.strip()
 
 
-def main(config, source, target, L1, L2, min_score=0.25, max_score=0.75):
+def main(config,
+         source,
+         target,
+         L1,
+         L2,
+         min_score=0.25,
+         max_score=0.75,
+         corpus_ratio=0.3):
     src_L1_fname = '{0}.{1}'.format(source, L1)
     src_L2_fname = '{0}.{1}'.format(source, L2)
     tgt_L1_fname = '{0}.{1}'.format(target, L1)
@@ -61,21 +69,29 @@ def main(config, source, target, L1, L2, min_score=0.25, max_score=0.75):
          io.open(tgt_L1_fname, 'w', buffering=1, encoding='utf-8') as tgt_L1, \
          io.open(tgt_L2_fname, 'w', buffering=1, encoding='utf-8') as tgt_L2:
 
-        for sent_no, (s, t) in enumerate(zip(src_L1, src_L2)):
+        sent_no = 0
+        for s, t in zip(src_L1, src_L2):
+            if random.random() > corpus_ratio:
+                continue
+
             try:
                 st = mt.translate(s)
                 score = sentence_bleu(
                     [t.strip().split()],
                     st.split(),
                     smoothing_function=smoothing_func.method4)
-                if min_score <= score <= max_score:
+
+                if min_score <= score <= max_score and random.random():
                     tgt_L1.write(s)
                     tgt_L2.write(t)
+                    sent_no += 1
+
+                    if sent_no % 1000 == 0:
+                        logging.info(
+                            'Collected {0} sentences.'.format(sent_no))
+
             except Exception as e:
                 logging.error('[sent_{0}]: {e}.'.format(sent_no, e))
-
-            if sent_no % 1000 == 0:
-                logging.info('Processed {0} sentences.'.format(sent_no))
 
 
 if __name__ == '__main__':

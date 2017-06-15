@@ -144,6 +144,13 @@ def create_parser():
         help=("Glossaries. The strings provided in glossaries will not be "
               "affected by the BPE (i.e. they will neither be broken into "
               "subwords, nor concatenated with other subwords"))
+    parser.add_argument(
+        '--truecase',
+        '-e',
+        type=argparse.FileType('r'),
+        default=None,
+        metavar="PATH",
+        help=("Truecase model."))
 
     return parser
 
@@ -292,12 +299,10 @@ def check_vocab_and_split(orig, bpe_codes, vocab, separator):
     return out
 
 
-def read_vocabulary(vocab_file, threshold):
+def read_vocabulary(vocab_file, threshold=None):
     """read vocabulary file produced by get_vocab.py, and filter according to
     frequency threshold.
     """
-
-    vocabulary = set()
 
     if vocab_file.name.endswith('.json'):
         import json
@@ -306,6 +311,8 @@ def read_vocabulary(vocab_file, threshold):
     if vocab_file.name.endswith('.yml') or vocab_file.name.endswith('.yaml'):
         import yaml
         return set(yaml.load(vocab_file).keys())
+
+    vocabulary = set()
 
     for line in vocab_file:
         word, freq = line.split()
@@ -339,7 +346,20 @@ def isolate_glossary(word, glossary):
             -1] != '' else segments
 
 
-def preprocess(text, separator):
+def upper_score(tokens, separator):
+    alpha, upper = 0, 0
+    for tok in tokens:
+        if tok[0].isalpha():
+            alpha += 1
+        if tok[0].isupper():
+            upper += 1
+    if alpha == 0:
+        return 0.0
+    else:
+        return upper / alpha
+
+
+def preprocess(text, separator, truecase_words):
     text = re.sub(
         r'(?<=[^\s])([^\w\s{0}])'.format(separator),
         r' {0}\1'.format(separator),
@@ -350,6 +370,32 @@ def preprocess(text, separator):
         r'\1{0} '.format(separator),
         text,
         flags=re.U)
+
+    # apply truecase
+    tokens = text.split()
+
+    # XXX: our model is trained with some all uppercase or all titlecase sentences
+    score = upper_score(tokens, separator)
+    if score == 0 or score == 1.0:
+        return text
+
+    # skip if sent starter token is digit or lowercase
+    sent_start = 0
+    if separator in tokens[0]:
+        for i, tok in enumerate(tokens):
+            if not separator in tok:
+                sent_start = i
+                break
+    if tokens[sent_start].isdigit():
+        return text
+    elif tokens[sent_start].islower():
+        return text
+
+    lower_tok = tokens[sent_start].lower()
+    if lower_tok in truecase_words:
+        tokens[sent_start] = lower_tok
+    text = ' '.join(tokens)
+
     return text
 
 
@@ -385,7 +431,12 @@ if __name__ == '__main__':
 
     bpe = BPE(args.codes, args.separator, vocabulary, args.glossaries)
 
+    if args.truecase:
+        truecase_words = read_vocabulary(args.truecase)
+    else:
+        truecase_words = set()
+
     for line in args.input:
-        line = preprocess(line.strip(), args.separator)
+        line = preprocess(line.strip(), args.separator, truecase_words)
         args.output.write(bpe.segment(line))
         args.output.write('\n')

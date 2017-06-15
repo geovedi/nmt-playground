@@ -92,8 +92,7 @@ def main(config,
                     pair_no += 1
 
             except Exception as e:
-                logging.error('[sent_{0}]: {e}.'.format(sent_no, e))
-
+                logging.error('[sent_{0}]: {1}.'.format(sent_no, e))
 
 
 if __name__ == '__main__':

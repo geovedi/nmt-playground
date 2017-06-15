@@ -376,7 +376,7 @@ def preprocess(text, separator, truecase_words):
 
     # XXX: our model is trained with some all uppercase or all titlecase sentences
     score = upper_score(tokens, separator)
-    if score == 0 or score == 1.0:
+    if score == 0 or score > 0.5:
         return text
 
     # skip if sent starter token is digit or lowercase

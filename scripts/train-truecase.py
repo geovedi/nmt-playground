@@ -51,7 +51,7 @@ def main(corpus, model, separator='￭', max_sents=10e6):
 
         # don't process all uppercase, titlecase or lowercase sentences
         score = upper_score(tokens, separator)
-        if score == 0 or score == 1.0:
+        if score == 0 or score > 0.5:
             continue
 
         for tok in tokens:

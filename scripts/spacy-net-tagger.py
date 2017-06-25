@@ -16,10 +16,13 @@ def main(input, output):
     with io.open(output, 'w', encoding='utf-8') as out:
         for line_no, line in enumerate(io.open(input, 'r', buffering=1, encoding='utf-8')):
             text = line.strip()
-            doc = nlp(text)
-            for ent in doc.ents:
-                ent.merge(ent.root.tag_, ent.text, ent.label_)
-            entities = [(tok.idx, tok.idx + len(tok.text), tok.ent_type_) for tok in doc if tok.ent_type_ != '']
+            try:
+                doc = nlp(text)
+                for ent in doc.ents:
+                    ent.merge(ent.root.tag_, ent.text, ent.label_)
+                entities = [(tok.idx, tok.idx + len(tok.text), tok.ent_type_) for tok in doc if tok.ent_type_ != '']
+            except:
+                entities = []
             data = (text, entities)
             out.write(json.dumps(data, ensure_ascii=False))
             out.write('\n')

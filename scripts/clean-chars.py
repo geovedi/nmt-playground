@@ -1,6 +1,6 @@
 import io
-import fire
 import re
+import fire
 
 import logging
 logging.basicConfig(
@@ -16,9 +16,20 @@ UNWANTED = re.compile('[^'
     ']', re.UNICODE)
 
 
+def smart_open(filename, mode="rt", ftype="auto", encoding='utf-8', errors='replace'):
+    if ftype == 'gzip' or ftype == 'gz' or (ftype == 'auto' and filename.endswith(".gz")):
+        import gzip
+        return gzip.open(filename, mode=mode, encoding=encoding, errors=errors)
+    elif ftype == "bzip2" or ftype == "bz2" or (ftype == 'auto' and filename.endswith(".bz2")):
+        import bz2
+        return bz2.open(filename, mode=mode, encoding=encoding, errors=errors)
+    else:
+        return open(filename, mode=mode, encoding=encoding, errors=errors)
+
+
 def main(input, output):
-    with io.open(output, 'w', encoding='utf-8') as out:
-        for line_no, line in enumerate(io.open(input, 'r', encoding='utf-8')):
+    with smart_open(output, 'wt') as out:
+        for line_no, line in enumerate(smart_open(input, 'rt')):
             if UNWANTED.search(line):
                 continue
             out.write(line)

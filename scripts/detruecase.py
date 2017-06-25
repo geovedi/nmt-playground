@@ -7,12 +7,13 @@ PUNCTUATION = string.punctuation + '—'
 
 
 def preprocess(text):
-    text = re.sub('(^| )- ', r'\1— ', text)
-    text = re.sub(r'([\$£]|Rp) (\d+)', r'\1\2', text)
     return text
 
 
 def postprocess(text):
+    text = re.sub('(^| )- ', r'\1— ', text)
+    text = re.sub(r'([\$£]|Rp) (\d+)', r'\1\2', text)
+    text = re.sub(r'(US) (\/|\$|£)\s?(\d+)', r'\1$\3', text) # bug in earlier model
     text = re.sub(r'^>\s?"\s?', '> "', text)
     text = re.sub(r'^(\d+) \'- ', r"\1' — ", text)
     text = re.sub(r'\s?([\/]+)\s?', r'\1', text)

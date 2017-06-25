@@ -1,0 +1,70 @@
+after-batches: 0
+after-epochs: 0
+cell-dec: lstm
+cell-enc: lstm
+clip-norm: 1
+devices:
+  - 0
+dim-emb: 256
+dim-pos: 0
+dim-rnn: 512
+dim-vocabs:
+  - 10002
+  - 10002
+disp-freq: 1000
+drop-rate: 0
+dropout-rnn: 0.3
+dropout-src: 0.3
+dropout-trg: 0.3
+dynamic-batching: true
+early-stopping: 10
+guided-alignment: ../data/tune.bpe.en2id.align
+guided-alignment-cost: ce
+guided-alignment-weight: 1
+keep-best: true
+layer-normalization: true
+layers-dec: 1
+layers-enc: 1
+learn-rate: 0.0001
+learning-rate-decay: 0.7
+log: train.log
+lr-decay: 0
+lr-decay-freq: 5000
+lr-decay-start:
+  - 3
+  - 1
+lr-decay-strategy: epoch+stalled
+max-length: 100
+maxi-batch: 1000
+mini-batch: 500
+mini-batch-words: 0
+model: model.en2id.npz
+moving-average: true
+moving-decay: 0.999
+no-reload: false
+no-shuffle: false
+optimizer: adam
+overwrite: true
+relative-paths: true
+save-freq: 10000
+seed: 1337
+skip: true
+start-decay-epoch: 1
+start-decay-stalled: 1
+tempdir: /tmp
+tied-embeddings: true
+train-sets:
+  - ../data/tune.bpe.en
+  - ../data/tune.bpe.id
+type: s2s
+valid-freq: 10000
+valid-log: valid.log
+valid-metrics:
+  - cross-entropy
+valid-sets:
+  - ../data/valid.bpe.en
+  - ../data/valid.bpe.id
+vocabs:
+  - vocab.en.json
+  - vocab.id.json
+workspace: 4096

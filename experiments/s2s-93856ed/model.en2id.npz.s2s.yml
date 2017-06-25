@@ -1,0 +1,33 @@
+allow-unk: false
+beam-size: 5
+cell-dec: lstm
+cell-enc: lstm
+devices:
+  - 0
+dim-emb: 256
+dim-pos: 0
+dim-rnn: 512
+dim-vocabs:
+  - 10002
+  - 10002
+input:
+  - stdin
+layer-normalization: true
+layers-dec: 1
+layers-enc: 1
+max-length: 1000
+maxi-batch: 1
+mini-batch: 1
+models:
+  - model.en2id.npz.best-cross-entropy.npz
+n-best: false
+normalize: true
+relative-paths: true
+seed: 0
+skip: false
+tied-embeddings: false
+type: s2s
+vocabs:
+  - vocab.en.json
+  - vocab.id.json
+workspace: 1024

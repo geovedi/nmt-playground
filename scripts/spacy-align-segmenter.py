@@ -96,11 +96,16 @@ def detokenize(text):
     return text.strip()
 
 
-def main(input, output, alignment, min_length=2, spacy_model='en_core_web_sm'):
+def main(input,
+         output,
+         alignment,
+         min_length=2,
+         max_length=15,
+         spacy_model='en_core_web_sm'):
     nlp = spacy.load(spacy_model)
 
     def text_processing(text):
-        doc = nlp(detokenize(src.strip()))
+        doc = nlp(detokenize(text.strip()))
 
         for ent in doc.ents:
             ent.merge(ent.root.tag_, ent.text, ent.label_)
@@ -135,9 +140,9 @@ def main(input, output, alignment, min_length=2, spacy_model='en_core_web_sm'):
          io.open(input, 'r', encoding='utf-8') as in_f, \
          io.open(alignment, 'r', encoding='utf-8') as al_f:
         for line_no, (sent, align) in enumerate(zip(in_f, al_f)):
-            src, tgt = sent.strip().split(' ||| ')
 
             try:
+                src, tgt = sent.strip().split(' ||| ')
                 doc = text_processing(src.strip())
             except Exception as e:
                 logging.error('Error: {0}'.format(e))
@@ -152,7 +157,8 @@ def main(input, output, alignment, min_length=2, spacy_model='en_core_web_sm'):
                     continue
 
                 for span in list(doc):
-                    if span.text_with_ws == s_phrase:
+                    if (span.text_with_ws == s_phrase and
+                        (min_length <= len(span.text.split()) <= max_length)):
                         out_f.write('{0} ||| {1}\n'.format(s_phrase, t_phrase))
 
             if line_no % 10000 == 0:

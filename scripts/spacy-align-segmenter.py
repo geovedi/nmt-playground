@@ -131,8 +131,12 @@ def main(input,
                     segments.remove(this)
 
         for segment in segments:
-            segment.merge(segment.root.tag_, segment.text,
-                          segment.root.ent_type_)
+            try:
+                segment.merge(segment.root.tag_, segment.text,
+                              segment.root.ent_type_)
+            except IndexError:
+                pass
+
         return doc
 
 

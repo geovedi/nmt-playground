@@ -2,6 +2,7 @@
 
 import io
 import string
+import re
 import fire
 import spacy
 from collections import Counter
@@ -25,14 +26,54 @@ def detokenize(text):
 
 
 UNWANTED = string.punctuation + ' \n'
+#PAREN_OPENED = '<({['
+#PAREN_CLOSED = '>)}]'
+#PAREN_OPENED_REGEXP = re.compile(r'[\<\[\{\(]')
+#PAREN_CLOSED_REGEXP = re.compile(r'[\>\]\}\)]')
+#PAREN_PAIRS = {
+#    '<': '>', '(': ')', '{': '}', '[': ']',
+#    '>': '<', ')': '(', '}': '{', ']': '['
+#}
+
+# fix spacy parsing result only
+PAREN_OPENED = ['(', ' "']
+PAREN_CLOSED = [')', '" ']
+PAREN_OPENED_REGEXP = re.compile(r'([\(]| ")')
+PAREN_CLOSED_REGEXP = re.compile(r'([\)]|" )')
+PAREN_PAIRS = {'(': ')', ')': '(', ' "': '" ', '" ': ' "'}
+
+
+def find_missing_pairs(text):
+    opened_count = Counter(PAREN_OPENED_REGEXP.findall(text))
+    closed_count = Counter(PAREN_CLOSED_REGEXP.findall(text))
+    result = {}
+
+    for this_char, this_count in opened_count.items():
+        pair_char = PAREN_PAIRS[this_char]
+        pair_count = closed_count[pair_char]
+        if this_count > pair_count:
+            result[pair_char] = this_count - pair_count
+        elif this_count < pair_count:
+            result[this_char] = pair_count - this_count
+
+    for this_char, this_count in closed_count.items():
+        pair_char = PAREN_PAIRS[this_char]
+        pair_count = opened_count[pair_char]
+        if this_count > pair_count:
+            result[pair_char] = this_count - pair_count
+        elif this_count < pair_count:
+            result[this_char] = pair_count - this_count
+
+    return result
 
 
 def cleanup(text):
     text = text.strip(UNWANTED)
-    if '(' in text and not ')' in text:
-        text = text + ')'
-    if ')' in text and not '(' in text:
-        text = '(' + text
+    for char, count in find_missing_pairs(text).items():
+        if char in PAREN_OPENED:
+            text = ''.join([char.strip()] * count) + text
+        elif char in PAREN_CLOSED:
+            text = text + ''.join([char.strip()] * count)
     return text
 
 
@@ -71,7 +112,7 @@ def text_processing(model, text, min_length, max_length):
     return mini_counter
 
 
-def produce(input):
+def produce(input, sentence_limit):
     mini_buckets = []
 
     for line_no, line in enumerate(io.open(input, 'r', encoding='utf-8')):
@@ -113,8 +154,9 @@ def main(input,
          min_length=2,
          max_length=10):
     results = Parallel(
-        n_jobs=n_jobs, verbose=5)(delayed(text_processing)(
-            model, text, min_length, max_length) for text in produce(input))
+        n_jobs=n_jobs, verbose=5)(
+            delayed(text_processing)(model, text, min_length, max_length)
+            for text in produce(input, sentence_limit))
 
     counter = Counter()
     for result in results:
